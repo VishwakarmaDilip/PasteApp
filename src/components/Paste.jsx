@@ -31,46 +31,46 @@ const Paste = () => {
 
         <div className=" border rounded-lg">
           <div className=" border h-14 px-3 py-2">
-            <h1 className=" text-3xl font-bold">All Pastes</h1>
+            <h1 className=" text-2xl md:text-3xl font-bold">All Pastes</h1>
           </div>
           <div className=" flex flex-col gap-5 p-3">
             {filteredData.length > 0 ? (
               filteredData.map((paste) => {
                 return (
                   <div
-                    className=" flex justify-between border p-1 h-24"
+                    className=" gap-8 flex justify-between border p-1 h-24"
                     key={paste?._id}
                   >
-                    <div className="">
-                      <h2 className=" text-2xl font-semibold">{paste.title}</h2>
-                      <p>{paste.content}</p>
+                    <div className=" w-40">
+                      <h2 className=" text-xl md:text-2xl font-semibold">{paste.title}</h2>
+                      <p className="text-xs md:text-m">{paste.content}</p>
                     </div>
-                    <div className="flex flex-col gap-2">
-                      <ul className=" flex gap-4">
+                    <div className="flex flex-col md:gap-2">
+                      <ul className=" justify-center flex-wrap flex gap-1 md:gap-4">
                         <li>
                           <button className=" border p-1 ">
                             <i data-feather="arrow-right"></i>
                             <NavLink to={`/?pasteId=${paste._id}`}>
                               <FeatherIcon
                                 icon="edit-3"
-                                className=" hover:text-blue-600"
+                                className=" hover:text-blue-600 h-4 md:h-6"
                               />
                             </NavLink>
                           </button>
                         </li>
                         <li>
                           <button
-                            className=" border p-1 hover:text-red-600 "
+                            className=" border p-1 hover:text-red-600  "
                             onClick={() => handleDelete(paste._id)}
                           >
-                            <FeatherIcon icon="trash-2" />
+                            <FeatherIcon icon="trash-2" className="h-4 md:h-6" />
                           </button>
                         </li>
                         <li>
                           <button className=" border p-1 ">
                             <FeatherIcon
                               icon="share"
-                              className=" hover:text-orange-600"
+                              className=" hover:text-orange-600 h-4 md:h-6"
                             />
                           </button>
                         </li>
@@ -79,20 +79,20 @@ const Paste = () => {
                             <NavLink to={`/pastes/${paste._id}`}>
                               <FeatherIcon
                                 icon="eye"
-                                className=" hover:text-purple-700"
+                                className=" hover:text-purple-700 h-4 md:h-6"
                               />
                             </NavLink>
                           </button>
                         </li>
                         <li>
                           <button
-                            className=" border p-1 hover:text-green-500 "
+                            className=" border p-1 hover:text-green-500  "
                             onClick={() => {
                               navigator.clipboard.writeText(paste.content);
                               toast.success("Copied To Clipboard");
                             }}
                           >
-                            <FeatherIcon icon="copy" />
+                            <FeatherIcon icon="copy" className="h-4 md:h-6" />
                           </button>
                         </li>
                       </ul>

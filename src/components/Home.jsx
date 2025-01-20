@@ -59,7 +59,7 @@ const Home = () => {
           />
 
           <button
-            className=" p-2 px-4 rounded-2xl mt-2 bg-blue-700 text-white w-[15%]  "
+            className=" p-2 px-4 rounded-2xl mt-2 bg-blue-700 text-white md:w-[15%]  "
             onClick={createPaste}
           >
             {pasteId ? "Update Paste" : "Create My Paste"}
