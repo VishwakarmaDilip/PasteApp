@@ -22,12 +22,12 @@ const Home = () => {
   }, [pasteId]);
 
   const createPaste = () => {
-    let date = new Date()
-    const creationDate = new Intl.DateTimeFormat("en-IN",{
+    let date = new Date();
+    const creationDate = new Intl.DateTimeFormat("en-IN", {
       year: "numeric",
       day: "numeric",
-      month : "long",
-    }).format(date)
+      month: "long",
+    }).format(date);
 
     const patse = {
       title: title,
@@ -83,8 +83,12 @@ const Home = () => {
             <button
               className=" border p-1 px-2 rounded-md "
               onClick={() => {
-                navigator.clipboard.writeText(value);
-                toast.success("Copied To Clipboard");
+                if(title != "" && value !="") {
+                  navigator.clipboard.writeText(value);
+                  toast.success("Copied To Clipboard");
+                } else {
+                  toast.error("No Data to Copy")
+                }
               }}
             >
               <FeatherIcon icon="copy" />
