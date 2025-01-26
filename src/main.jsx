@@ -8,11 +8,11 @@ import { Toaster } from 'react-hot-toast'
 
 let display = true
 
-// if(screen.width < 640) {
-//   display = true
-// } else {
-//   display = false
-// }
+if(screen.width < 640) {
+  display = true
+} else {
+  display = false
+}
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
