@@ -22,7 +22,7 @@ const Paste = () => {
     <div className=" w-full flex justify-center">
       <div className=" w-[80%] flex flex-col gap-3">
         <input
-          className=" border p-2 rounded-lg min-w-[600px] mt-5"
+          className=" border p-2 rounded-lg sm:min-w-[600px] mt-5"
           type="search"
           placeholder="Search Paste Here..."
           value={searchTerm}
@@ -31,29 +31,31 @@ const Paste = () => {
 
         <div className=" border rounded-lg">
           <div className=" border h-14 px-3 py-2">
-            <h1 className=" text-2xl md:text-3xl font-bold">All Pastes</h1>
+            <h1 className=" text-2xl sm:text-3xl font-bold">All Pastes</h1>
           </div>
           <div className=" flex flex-col gap-5 p-3">
             {filteredData.length > 0 ? (
               filteredData.map((paste) => {
                 return (
                   <div
-                    className=" gap-8 flex justify-between border p-1 h-24"
+                    className=" gap-8 flex justify-between border p-1  "
                     key={paste?._id}
                   >
-                    <div className=" w-40">
-                      <h2 className=" text-xl md:text-2xl font-semibold">{paste.title}</h2>
-                      <p className="text-xs md:text-m">{paste.content}</p>
+                    <div className=" w-52">
+                      <h2 className=" text-xl sm:text-2xl font-semibold">
+                        {paste.title}
+                      </h2>
+                      <p className="text-xs sm:text-m">{paste.content}</p>
                     </div>
-                    <div className="flex flex-col md:gap-2">
-                      <ul className=" justify-center flex-wrap flex gap-1 md:gap-4">
+                    <div className="flex flex-col gap-3 h-fit">
+                      <ul className=" justify-center flex-wrap flex gap-1 sm:gap-4">
                         <li>
                           <button className=" border p-1 ">
                             <i data-feather="arrow-right"></i>
                             <NavLink to={`/?pasteId=${paste._id}`}>
                               <FeatherIcon
                                 icon="edit-3"
-                                className=" hover:text-blue-600 h-4 md:h-6"
+                                className=" hover:text-blue-600 h-4 sm:h-6"
                               />
                             </NavLink>
                           </button>
@@ -63,14 +65,17 @@ const Paste = () => {
                             className=" border p-1 hover:text-red-600  "
                             onClick={() => handleDelete(paste._id)}
                           >
-                            <FeatherIcon icon="trash-2" className="h-4 md:h-6" />
+                            <FeatherIcon
+                              icon="trash-2"
+                              className="h-4 sm:h-6"
+                            />
                           </button>
                         </li>
                         <li>
                           <button className=" border p-1 ">
                             <FeatherIcon
                               icon="share"
-                              className=" hover:text-orange-600 h-4 md:h-6"
+                              className=" hover:text-orange-600 h-4 sm:h-6"
                             />
                           </button>
                         </li>
@@ -79,7 +84,7 @@ const Paste = () => {
                             <NavLink to={`/pastes/${paste._id}`}>
                               <FeatherIcon
                                 icon="eye"
-                                className=" hover:text-purple-700 h-4 md:h-6"
+                                className=" hover:text-purple-700 h-4 sm:h-6"
                               />
                             </NavLink>
                           </button>
@@ -92,12 +97,12 @@ const Paste = () => {
                               toast.success("Copied To Clipboard");
                             }}
                           >
-                            <FeatherIcon icon="copy" className="h-4 md:h-6" />
+                            <FeatherIcon icon="copy" className="h-4 sm:h-6" />
                           </button>
                         </li>
                       </ul>
-                      <div className="flex justify-between">
-                        <FeatherIcon icon="calendar" />
+                      <div className="flex justify-center sm:justify-end items-center gap-2 text-xs sm:text-base w-32 sm:w-full">
+                        <FeatherIcon icon="calendar" className="h-4 sm:h-6" />
                         {paste.createdAt}
                       </div>
                       <div></div>

@@ -22,11 +22,18 @@ const Home = () => {
   }, [pasteId]);
 
   const createPaste = () => {
+    let date = new Date()
+    const creationDate = new Intl.DateTimeFormat("en-IN",{
+      year: "numeric",
+      day: "numeric",
+      month : "long",
+    }).format(date)
+
     const patse = {
       title: title,
       content: value,
       _id: pasteId || Date.now().toString(36),
-      createdAt: new Date().toISOString(),
+      createdAt: creationDate,
     };
 
     if (pasteId) {

@@ -49,7 +49,7 @@ const ViewPaste = () => {
             </button>
           </div>
           <textarea
-            className=" min-w-[500px] p-4 rounded-b-2xl cursor-not-allowed w-full bg-white resize-none"
+            className=" sm:min-w-[500px] p-4 rounded-b-2xl cursor-not-allowed w-full bg-white resize-none"
             value={paste[0].content}
             placeholder="Enter Content Here"
             rows={18}
