@@ -6,13 +6,13 @@ import { store } from './store.js'
 import { Provider } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
 
-let display
+let display = true
 
-if(screen.width < 640) {
-  display = true
-} else {
-  display = false
-}
+// if(screen.width < 640) {
+//   display = true
+// } else {
+//   display = false
+// }
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -21,7 +21,7 @@ createRoot(document.getElementById('root')).render(
       {
         display?
         <Toaster
-        position='bottom-center'/>
+        position='top-right'/>
         :
         <Toaster
         position='top-center'
