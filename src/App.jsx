@@ -3,6 +3,8 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Paste from "./components/Paste";
 import ViewPaste from "./components/ViewPaste";
+import LogIn from "./components/LogIn";
+import SignUp from "./components/SignUp";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,22 @@ const router = createBrowserRouter([
         <ViewPaste />
       </div>
     ),
+  },
+  {
+    path: "/login",
+    element: (
+      <div>
+        <LogIn/>
+      </div>
+    )
+  },
+  {
+    path: "/signUp",
+    element:(
+      <div>
+        <SignUp/>
+      </div>
+    )
   },
 ]);
 
