@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 const Home = () => {
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams("");
   const pasteId = searchParams.get("pasteId");
   const dispatch = useDispatch();
   const allPaste = useSelector((state) => state.paste.pastes);
