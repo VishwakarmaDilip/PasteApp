@@ -2,24 +2,49 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Input from "./Input";
 import Button from "./Button";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import FeatherIcon from "feather-icons-react";
+import toast from "react-hot-toast";
+import { logIn } from "../redux/authSlice";
 
 const LogIn = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = (data) => {
-    console.log("Login Data:", data);
+  const onSubmit = async (data) => {
+    // console.log("Login Data:", data);
+    try {
+      const response = await fetch(`http://localhost:8000/api/v1/users/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      console.log(response);
+
+      if (response.status < 299) {
+        reset();
+        dispatch(logIn());
+        toast.success("Logged In");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("Log In:", error);
+    }
   };
 
   return (
@@ -28,14 +53,20 @@ const LogIn = () => {
         <h2 className="text-xl font-bold mb-4">Login</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium">Email</label>
+            <label className="block text-sm font-medium">
+              Username or Email
+            </label>
             <Input
-              type="email"
-              {...register("email", { required: "Email is required" })}
+              type="text"
+              {...register("identifier", {
+                required: "Username or Email is required",
+              })}
               className="w-full"
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm">{errors.email.message}</p>
+            {errors.identifier && (
+              <p className="text-red-500 text-sm">
+                {errors.identifier.message}
+              </p>
             )}
           </div>
 

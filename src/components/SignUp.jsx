@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Input from "./Input";
 import Button from "./Button";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import FeatherIcon from "feather-icons-react";
 import toast from "react-hot-toast";
 
@@ -15,6 +15,8 @@ const SignUp = () => {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate()
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -39,11 +41,13 @@ const SignUp = () => {
         setTimeout(() => {
           toast.success("Login With Email Or Username" ,{duration: 4000})
         }, 2000);
+        reset()
+        navigate("/login")
       } else if(response.status === 401) {
         toast.error("User With Email id or Username already Exist")
       }
 
-      reset()
+
       
     } catch (error) {
       console.log("Register:", error);

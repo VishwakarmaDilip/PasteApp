@@ -50,6 +50,14 @@ const router = createBrowserRouter([
       </div>
     )
   },
+  // {
+  //   path: "/loggedInHome",
+  //   element:(
+  //     <div>
+  //       <SignUp/>
+  //     </div>
+  //   )
+  // },
 ]);
 
 function App() {

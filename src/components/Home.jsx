@@ -11,47 +11,60 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams("");
   const pasteId = searchParams.get("pasteId");
   const dispatch = useDispatch();
-  const allPaste = useSelector((state) => state.paste.pastes);
+  const loggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const allPaste = loggedIn ? [] : useSelector((state) => state.paste.pastes);
 
-  useEffect(() => {
-    if (pasteId) {
-      const paste = allPaste.find((p) => p._id === pasteId);
-      setTitle(paste.title);
-      setValue(paste.content);
-    }
-  }, [pasteId]);
+  let createPaste;
 
-  const createPaste = () => {
-    let date = new Date();
-    const creationDate = new Intl.DateTimeFormat("en-IN", {
-      year: "numeric",
-      day: "numeric",
-      month: "long",
-    }).format(date);
+  if (!loggedIn) {
+    useEffect(() => {
+      if (pasteId) {
+        const paste = allPaste.find((p) => p._id === pasteId);
+        setTitle(paste.title);
+        setValue(paste.content);
+      }
+    }, [pasteId]);
 
-    const patse = {
-      title: title,
-      content: value,
-      _id: pasteId || Date.now().toString(36),
-      createdAt: creationDate,
+    createPaste = () => {
+      let date = new Date();
+      const creationDate = new Intl.DateTimeFormat("en-IN", {
+        year: "numeric",
+        day: "numeric",
+        month: "long",
+      }).format(date);
+
+      const patse = {
+        title: title,
+        content: value,
+        _id: pasteId || Date.now().toString(36),
+        createdAt: creationDate,
+      };
+
+      if (pasteId) {
+        //update
+        dispatch(updateToPastes(patse));
+      } else {
+        //create
+        dispatch(addToPastes(patse));
+      }
+
+      //after creation or updation
+
+      if (!pasteId) {
+        setTitle("");
+        setValue("");
+        setSearchParams({});
+      }
     };
-
-    if (pasteId) {
-      //update
-      dispatch(updateToPastes(patse));
-    } else {
-      //create
-      dispatch(addToPastes(patse));
-    }
-
-    //after creation or updation
-
-    if (!pasteId) {
-      setTitle("");
-      setValue("");
-      setSearchParams({});
-    }
-  };
+  } else {
+    useEffect(() => {
+      if (pasteId) {
+        const paste = allPaste.find((p) => p._id === pasteId);
+        setTitle(paste.title);
+        setValue(paste.content);
+      }
+    }, [pasteId]);
+  }
 
   return (
     <div className=" w-full flex justify-center">
@@ -83,11 +96,11 @@ const Home = () => {
             <button
               className=" border p-1 px-2 rounded-md "
               onClick={() => {
-                if(title != "" && value !="") {
+                if (title != "" && value != "") {
                   navigator.clipboard.writeText(value);
                   toast.success("Copied To Clipboard");
                 } else {
-                  toast.error("No Data to Copy")
+                  toast.error("No Data to Copy");
                 }
               }}
             >
