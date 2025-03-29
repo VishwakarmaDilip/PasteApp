@@ -29,6 +29,7 @@ const LogIn = () => {
     try {
       const response = await fetch(`http://localhost:8000/api/v1/users/login`, {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -41,6 +42,8 @@ const LogIn = () => {
         dispatch(logIn());
         toast.success("Logged In");
         navigate("/");
+      }else {
+        toast.error("Invalid User Credentials")
       }
     } catch (error) {
       console.log("Log In:", error);

@@ -6,26 +6,31 @@ import FeatherIcon from "feather-icons-react";
 import toast from "react-hot-toast";
 
 const Home = () => {
+  const loggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const pastes = useSelector((state) => state.paste.pastes);
+  const allPaste = loggedIn ? [] : pastes;
+
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
   const [searchParams, setSearchParams] = useSearchParams("");
   const pasteId = searchParams.get("pasteId");
   const dispatch = useDispatch();
-  const loggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const allPaste = loggedIn ? [] : useSelector((state) => state.paste.pastes);
 
-  let createPaste;
-
-  if (!loggedIn) {
-    useEffect(() => {
-      if (pasteId) {
-        const paste = allPaste.find((p) => p._id === pasteId);
+  // ✅ FIXED: useEffect should be always at top-level
+  useEffect(() => {
+    if (!loggedIn && pasteId) {
+      const paste = allPaste.find((p) => p._id === pasteId);
+      if (paste) {
         setTitle(paste.title);
         setValue(paste.content);
       }
-    }, [pasteId]);
+    }
+  }, [pasteId, loggedIn, allPaste]);
 
-    createPaste = () => {
+  let createPaste;
+
+  createPaste = async () => {
+    if (!loggedIn) {
       let date = new Date();
       const creationDate = new Intl.DateTimeFormat("en-IN", {
         year: "numeric",
@@ -33,7 +38,7 @@ const Home = () => {
         month: "long",
       }).format(date);
 
-      const patse = {
+      const paste = {
         title: title,
         content: value,
         _id: pasteId || Date.now().toString(36),
@@ -41,30 +46,41 @@ const Home = () => {
       };
 
       if (pasteId) {
-        //update
-        dispatch(updateToPastes(patse));
+        dispatch(updateToPastes(paste));
       } else {
-        //create
-        dispatch(addToPastes(patse));
+        dispatch(addToPastes(paste));
       }
-
-      //after creation or updation
 
       if (!pasteId) {
         setTitle("");
         setValue("");
         setSearchParams({});
       }
-    };
-  } else {
-    useEffect(() => {
-      if (pasteId) {
-        const paste = allPaste.find((p) => p._id === pasteId);
-        setTitle(paste.title);
-        setValue(paste.content);
+    } else {
+      try {
+        const response = await fetch(
+          `http://localhost:8000/api/v1/notes/addNote`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              title: title,
+              content: value,
+            }),
+          }
+        );
+  
+        if (response.status < 299) {
+          toast.success("Note Created Successfully")
+        }
+      } catch (error) {
+        console.log(("Note :", response));
+        
       }
-    }, [pasteId]);
-  }
+    }
+  };
 
   return (
     <div className=" w-full flex justify-center">
@@ -96,7 +112,7 @@ const Home = () => {
             <button
               className=" border p-1 px-2 rounded-md "
               onClick={() => {
-                if (title != "" && value != "") {
+                if (title !== "" && value !== "") {
                   navigator.clipboard.writeText(value);
                   toast.success("Copied To Clipboard");
                 } else {
