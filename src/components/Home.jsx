@@ -62,6 +62,7 @@ const Home = () => {
           `http://localhost:8000/api/v1/notes/addNote`,
           {
             method: "POST",
+            credentials: "include",
             headers: {
               "Content-Type": "application/json",
             },
@@ -71,13 +72,25 @@ const Home = () => {
             }),
           }
         );
-  
+
         if (response.status < 299) {
-          toast.success("Note Created Successfully")
+          toast.success("Note Created Successfully");
+        }
+
+        switch (response.status) {
+          case 409:
+            toast.error("Note Already Exist");
+            break;
+
+          case 406:
+            toast.error("Please Enter Detail");
+            break;
+
+          default:
+            break;
         }
       } catch (error) {
         console.log(("Note :", response));
-        
       }
     }
   };

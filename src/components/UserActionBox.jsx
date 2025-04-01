@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { logout } from "../redux/authSlice";
+import { clearTime, logout } from "../redux/authSlice";
 import toast from "react-hot-toast";
 
 const UserActionBox = () => {
@@ -20,6 +20,7 @@ const UserActionBox = () => {
       if (response.status < 299) {
         dispatch(logout());
         toast.success("Logout Successfully")
+        dispatch(clearTime())
       }
     } catch (error) {
       console.log("Log Out:", error);
