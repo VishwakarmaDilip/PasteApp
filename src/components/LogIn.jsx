@@ -35,7 +35,6 @@ const LogIn = () => {
         },
         body: JSON.stringify(data),
       });
-      console.log(response);
 
       if (response.status < 299) {
         reset();

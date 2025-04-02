@@ -10,9 +10,9 @@ const Paste = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
 
-  const filteredData = pastes.filter((paste) =>
-    paste.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    const filteredData = pastes.filter((paste) =>
+      paste.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   const handleDelete = (pastId) => {
     dispatch(removeFromPastes(pastId));

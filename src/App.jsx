@@ -5,6 +5,7 @@ import Paste from "./components/Paste";
 import ViewPaste from "./components/ViewPaste";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
+import UserNotes from "./components/UserNotes";
 
 const router = createBrowserRouter([
   {
@@ -50,14 +51,15 @@ const router = createBrowserRouter([
       </div>
     )
   },
-  // {
-  //   path: "/loggedInHome",
-  //   element:(
-  //     <div>
-  //       <SignUp/>
-  //     </div>
-  //   )
-  // },
+  {
+    path: "/userNotes",
+    element:(
+      <div>
+      <Navbar />
+      <UserNotes />
+    </div>
+    )
+  },
 ]);
 
 function App() {

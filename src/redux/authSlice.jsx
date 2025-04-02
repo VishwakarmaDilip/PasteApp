@@ -34,11 +34,11 @@ export const setTime = () => (dispatch) => {
   timeoutId = setTimeout(() => {
     dispatch(logout())
     timeoutId = null
-  }, 86400);
+  }, 86400000);
 }
 export const clearTime = () => () => {
   if (timeoutId) {
-    clearTime(timeoutId)
+    clearTimeout(timeoutId)
     timeoutId = null
   }
 }
