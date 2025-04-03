@@ -46,6 +46,7 @@ const LogIn = () => {
         toast.error("Invalid User Credentials")
       }
     } catch (error) {
+      toast.error("Server is Down Please try Later")
       console.log("Log In:", error);
     }
   };

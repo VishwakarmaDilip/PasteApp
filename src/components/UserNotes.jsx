@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { removeFromPastes } from "../redux/pasteSlice";
 import toast from "react-hot-toast";
 import { NavLink } from "react-router-dom";
 import FeatherIcon from "feather-icons-react";
@@ -23,7 +21,6 @@ const UserNotes = () => {
 
         const data = await response.json();
 
-        // console.log(data);
         setPastes(data.data);
       } catch (error) {
         setError(true);
@@ -85,7 +82,7 @@ const UserNotes = () => {
                           <li>
                             <button className=" border p-1 ">
                               <i data-feather="arrow-right"></i>
-                              <NavLink to={`/?pasteId=${paste._id}`}>
+                              <NavLink to={`/?noteId=${paste._id}`}>
                                 <FeatherIcon
                                   icon="edit-3"
                                   className=" hover:text-blue-600 h-4 sm:h-6"

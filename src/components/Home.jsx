@@ -7,29 +7,49 @@ import toast from "react-hot-toast";
 
 const Home = () => {
   const loggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const pastes = useSelector((state) => state.paste.pastes);
-  const allPaste = loggedIn ? [] : pastes;
+  const allPaste = useSelector((state) => state.paste.pastes);
 
   const [title, setTitle] = useState("");
   const [value, setValue] = useState("");
   const [searchParams, setSearchParams] = useSearchParams("");
   const pasteId = searchParams.get("pasteId");
+  const noteId = searchParams.get("noteId");
   const dispatch = useDispatch();
 
   // ✅ FIXED: useEffect should be always at top-level
   useEffect(() => {
-    if (!loggedIn && pasteId) {
+    if (pasteId) {
       const paste = allPaste.find((p) => p._id === pasteId);
       if (paste) {
         setTitle(paste.title);
         setValue(paste.content);
       }
     }
-  }, [pasteId, loggedIn, allPaste]);
+    if (noteId) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:8000/api/v1/notes/getNote/${noteId}`,
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+          const data = await response.json();
+          const note = data.data;
 
-  let createPaste;
+          setTitle(note.title);
+          setValue(note.content);
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
-  createPaste = async () => {
+      fetchData();
+    }
+  }, [pasteId, noteId, allPaste]);
+
+  const createPaste = async () => {
     if (!loggedIn) {
       let date = new Date();
       const creationDate = new Intl.DateTimeFormat("en-IN", {
@@ -58,36 +78,70 @@ const Home = () => {
       }
     } else {
       try {
-        const response = await fetch(
-          `http://localhost:8000/api/v1/notes/addNote`,
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              title: title,
-              content: value,
-            }),
+        if (noteId) {
+          const response = await fetch(
+            `http://localhost:8000/api/v1/notes/updateNote/${noteId}`,
+            {
+              method: "PATCH",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                title,
+                content: value,
+              }),
+            }
+          );
+
+          if (response.status < 300) {
+            toast.success("Note Updated Successfully");
           }
-        );
 
-        if (response.status < 299) {
-          toast.success("Note Created Successfully");
-        }
+          switch (response.status) {
+            case 404:
+              toast.error("Note Not Found");
+              break;
 
-        switch (response.status) {
-          case 409:
-            toast.error("Note Already Exist");
-            break;
+            case 402:
+              toast.error("At least one feild required");
+              break;
 
-          case 406:
-            toast.error("Please Enter Detail");
-            break;
+            default:
+              break;
+          }
+        } else {
+          const response = await fetch(
+            `http://localhost:8000/api/v1/notes/addNote`,
+            {
+              method: "POST",
+              credentials: "include",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                title: title,
+                content: value,
+              }),
+            }
+          );
 
-          default:
-            break;
+          if (response.status < 299) {
+            toast.success("Note Created Successfully");
+          }
+
+          switch (response.status) {
+            case 409:
+              toast.error("Note Already Exist");
+              break;
+
+            case 406:
+              toast.error("Please Enter Detail");
+              break;
+
+            default:
+              break;
+          }
         }
       } catch (error) {
         console.log(("Note :", response));
@@ -111,7 +165,7 @@ const Home = () => {
             className=" p-2 px-4 rounded-2xl mt-2 bg-blue-700 text-white md:w-[15%]  "
             onClick={createPaste}
           >
-            {pasteId ? "Update Note" : "Create My Note"}
+            {pasteId || noteId ? "Update My Note" : "Create My Note"}
           </button>
         </div>
 
