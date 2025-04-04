@@ -25,7 +25,6 @@ const LogIn = () => {
   };
 
   const onSubmit = async (data) => {
-    // console.log("Login Data:", data);
     try {
       const response = await fetch(`http://localhost:8000/api/v1/users/login`, {
         method: "POST",
