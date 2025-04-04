@@ -33,7 +33,7 @@ const Paste = () => {
           <div className=" border h-14 px-3 py-2">
             <h1 className=" text-2xl sm:text-3xl font-bold">All Pastes</h1>
           </div>
-          <div className=" flex flex-col gap-5 p-3">
+          <div className=" max-h-[73vh] overflow-y-scroll flex flex-col gap-5 p-3">
             {filteredData.length > 0 ? (
               filteredData.map((paste) => {
                 return (
