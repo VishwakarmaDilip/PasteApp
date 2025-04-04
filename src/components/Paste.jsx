@@ -10,9 +10,9 @@ const Paste = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
 
-    const filteredData = pastes.filter((paste) =>
-      paste.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  const filteredData = pastes.filter((paste) =>
+    paste.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleDelete = (pastId) => {
     dispatch(removeFromPastes(pastId));
@@ -45,7 +45,11 @@ const Paste = () => {
                       <h2 className=" text-xl sm:text-2xl font-semibold">
                         {paste.title}
                       </h2>
-                      <p className="text-xs sm:text-m">{paste.content}</p>
+                      <p className="text-xs sm:text-m">
+                        {paste.content.length > 18
+                          ? paste.content.slice(0, 15) + "..."
+                          : paste.content}
+                      </p>
                     </div>
                     <div className="flex flex-col gap-3 h-fit">
                       <ul className=" justify-center flex-wrap flex gap-1 sm:gap-4">

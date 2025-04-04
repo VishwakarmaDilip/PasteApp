@@ -7,9 +7,9 @@ const UserNotes = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [pastes, setPastes] = useState([]);
   const [error, setError] = useState(false);
-  const [refresh , setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false);
 
-  useEffect(() => { 
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -45,20 +45,19 @@ const UserNotes = () => {
   const handleDelete = async (noteId) => {
     if (confirm("Delete This Note..?")) {
       try {
-        const response = await fetch(`https://paste-app-backend-production.up.railway.app/api/v1/notes/deleteNote/${noteId}`,
+        const response = await fetch(
+          `https://paste-app-backend-production.up.railway.app/api/v1/notes/deleteNote/${noteId}`,
           {
-            method:"DELETE",
-            credentials:"include"
+            method: "DELETE",
+            credentials: "include",
           }
-        )
+        );
 
-        setRefresh(!refresh)
+        setRefresh(!refresh);
 
         console.log(response);
-        
       } catch (error) {
         console.log(error);
-        
       }
     }
   };
@@ -80,7 +79,9 @@ const UserNotes = () => {
           </div>
           {error ? (
             <div className=" h-28 grid place-content-center">
-                <h3 className=" text-red-500 font-bold">Something Went Wrong Please Try Again...!</h3>
+              <h3 className=" text-red-500 font-bold">
+                Something Went Wrong Please Try Again...!
+              </h3>
             </div>
           ) : (
             <div className=" flex flex-col gap-5 p-3">
@@ -95,7 +96,11 @@ const UserNotes = () => {
                         <h2 className=" text-xl sm:text-2xl font-semibold">
                           {paste.title}
                         </h2>
-                        <p className="text-xs sm:text-m">{paste.content}</p>
+                        <p className="text-xs sm:text-m">
+                          {paste.content.length > 18
+                            ? paste.content.slice(0, 15) + "..."
+                            : paste.content}
+                        </p>
                       </div>
                       <div className="flex flex-col gap-3 h-fit">
                         <ul className=" justify-center flex-wrap flex gap-1 sm:gap-4">
