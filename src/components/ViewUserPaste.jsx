@@ -10,7 +10,7 @@ const ViewUserPaste = () => {
   useEffect(()=> {
    try {
      const fetchData = async () => {
-         const response = await fetch(`http://localhost:8000/api/v1/notes/getNote/${id}`,
+         const response = await fetch(`http://paste-app-backend.railway.internal/api/v1/notes/getNote/${id}`,
              {
                  method:"GET",
                  credentials:"include"
