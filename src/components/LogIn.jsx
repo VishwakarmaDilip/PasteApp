@@ -26,7 +26,7 @@ const LogIn = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch(`http://paste-app-backend.railway.internal/api/v1/users/login`, {
+      const response = await fetch(`https://paste-app-backend.railway.internal/api/v1/users/login`, {
         method: "POST",
         credentials: "include",
         headers: {

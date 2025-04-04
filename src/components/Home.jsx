@@ -21,7 +21,7 @@ const Home = () => {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            `http://paste-app-backend.railway.internal/api/v1/users/currentUser`,
+            `https://paste-app-backend.railway.internal/api/v1/users/currentUser`,
             {
               method: "GET",
               credentials: "include",
@@ -54,7 +54,7 @@ const Home = () => {
       const fetchData = async () => {
         try {
           const response = await fetch(
-            `http://paste-app-backend.railway.internal/api/v1/notes/getNote/${noteId}`,
+            `https://paste-app-backend.railway.internal/api/v1/notes/getNote/${noteId}`,
             {
               method: "GET",
               credentials: "include",
@@ -105,7 +105,7 @@ const Home = () => {
       try {
         if (noteId) {
           const response = await fetch(
-            `http://paste-app-backend.railway.internal/api/v1/notes/updateNote/${noteId}`,
+            `https://paste-app-backend.railway.internal/api/v1/notes/updateNote/${noteId}`,
             {
               method: "PATCH",
               credentials: "include",
@@ -137,7 +137,7 @@ const Home = () => {
           }
         } else {
           const response = await fetch(
-            `http://paste-app-backend.railway.internal/api/v1/notes/addNote`,
+            `https://paste-app-backend.railway.internal/api/v1/notes/addNote`,
             {
               method: "POST",
               credentials: "include",
