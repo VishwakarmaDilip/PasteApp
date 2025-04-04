@@ -46,7 +46,7 @@ const Paste = () => {
                         {paste.title}
                       </h2>
                       <p className="text-xs sm:text-m">
-                        {paste.content.length > 18
+                        {paste.content.length > 14
                           ? paste.content.slice(0, 15) + "..."
                           : paste.content}
                       </p>
