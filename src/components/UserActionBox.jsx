@@ -12,7 +12,7 @@ const UserActionBox = () => {
   const handleLogout = async () => {
     try {
       const response = await fetch(
-        `https://paste-app-backend.railway.internal/api/v1/users/logout`,
+        `https://paste-app-backend-production.up.railway.app/api/v1/users/logout`,
         {
           method: "POST",
           credentials: "include",

@@ -25,7 +25,7 @@ const SignUp = () => {
   const onSubmit = async (data) => {
     // console.log("Signup Data:", data);
     try {
-      const response = await fetch(`https://paste-app-backend.railway.internal/api/v1/users/register`,{
+      const response = await fetch(`https://paste-app-backend-production.up.railway.app/api/v1/users/register`,{
         method:"POST",
         headers:{
           "Content-Type": "application/json"

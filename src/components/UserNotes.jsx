@@ -13,7 +13,7 @@ const UserNotes = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://paste-app-backend.railway.internal/api/v1/users/getUserNotes",
+          "https://paste-app-backend-production.up.railway.app/api/v1/users/getUserNotes",
           {
             method: "GET",
             credentials: "include",
@@ -45,7 +45,7 @@ const UserNotes = () => {
   const handleDelete = async (noteId) => {
     if (confirm("Delete This Note..?")) {
       try {
-        const response = await fetch(`https://paste-app-backend.railway.internal/api/v1/notes/deleteNote/${noteId}`,
+        const response = await fetch(`https://paste-app-backend-production.up.railway.app/api/v1/notes/deleteNote/${noteId}`,
           {
             method:"DELETE",
             credentials:"include"
