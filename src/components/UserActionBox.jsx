@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { clearTime, logout } from "../redux/authSlice";
+import {logIn, logout } from "../redux/authSlice";
 import toast from "react-hot-toast";
 
 const UserActionBox = () => {
   const loggedIn = useSelector((state) => state.auth.isLoggedIn);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
 
   const handleLogout = async () => {
     try {
@@ -20,9 +21,8 @@ const UserActionBox = () => {
       );
       if (response.status < 299) {
         dispatch(logout());
-        toast.success("Logout Successfully")
-        dispatch(clearTime())
-        navigate("/")
+        toast.success("Logout Successfully");
+        navigate("/");
       }
     } catch (error) {
       console.log("Log Out:", error);

@@ -7,8 +7,9 @@ const UserNotes = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [pastes, setPastes] = useState([]);
   const [error, setError] = useState(false);
+  const [refresh , setRefresh] = useState(false)
 
-  useEffect(() => {
+  useEffect(() => { 
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -29,7 +30,7 @@ const UserNotes = () => {
     };
 
     fetchData();
-  }, []);
+  }, [refresh]);
 
   const filteredData = pastes.filter((paste) =>
     paste.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -41,7 +42,26 @@ const UserNotes = () => {
     month: "long",
   });
 
-  const handleDelete = (pastId) => {};
+  const handleDelete = async (noteId) => {
+    if (confirm("Delete This Note..?")) {
+      try {
+        const response = await fetch(`http://localhost:8000/api/v1/notes/deleteNote/${noteId}`,
+          {
+            method:"DELETE",
+            credentials:"include"
+          }
+        )
+
+        setRefresh(!refresh)
+
+        console.log(response);
+        
+      } catch (error) {
+        console.log(error);
+        
+      }
+    }
+  };
 
   return (
     <div className=" w-full flex justify-center">
@@ -111,7 +131,7 @@ const UserNotes = () => {
                           </li>
                           <li>
                             <button className=" border p-1 ">
-                              <NavLink to={`/pastes/${paste._id}`}>
+                              <NavLink to={`/userNotes/${paste._id}`}>
                                 <FeatherIcon
                                   icon="eye"
                                   className=" hover:text-purple-700 h-4 sm:h-6"

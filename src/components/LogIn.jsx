@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Input from "./Input";
 import Button from "./Button";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import FeatherIcon from "feather-icons-react";
 import toast from "react-hot-toast";
 import { logIn, setTime } from "../redux/authSlice";

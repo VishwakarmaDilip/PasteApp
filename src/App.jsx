@@ -6,6 +6,7 @@ import ViewPaste from "./components/ViewPaste";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
 import UserNotes from "./components/UserNotes";
+import ViewUserPaste from "./components/ViewUserPaste";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,15 @@ const router = createBrowserRouter([
       <UserNotes />
     </div>
     )
+  },
+  {
+    path: "/userNotes/:id",
+    element: (
+      <div>
+        <Navbar />
+        < ViewUserPaste/>
+      </div>
+    ),
   },
 ]);
 

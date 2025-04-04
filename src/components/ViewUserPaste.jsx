@@ -1,13 +1,32 @@
 import FeatherIcon from "feather-icons-react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 
-const ViewPaste = () => {
+const ViewUserPaste = () => {
   const { id } = useParams();
-  const allPaste = useSelector((state) => state.paste.pastes);
+  const [note, setNote] = useState("")
 
-  const paste = allPaste.filter((p) => p._id === id);
+  useEffect(()=> {
+   try {
+     const fetchData = async () => {
+         const response = await fetch(`http://localhost:8000/api/v1/notes/getNote/${id}`,
+             {
+                 method:"GET",
+                 credentials:"include"
+             }
+         )
+         const rowData = await response.json()
+         const data = rowData.data
+         setNote(data)
+     }
+ 
+     fetchData()
+   } catch (error) {
+    console.log(error);
+    
+   }
+  },[id])
 
   return (
     <div className="w-full flex justify-center">
@@ -16,12 +35,12 @@ const ViewPaste = () => {
           <input
             type="text"
             placeholder="Enter Title Here"
-            value={paste[0].title}
+            value={note?.title || ""}
             disabled
             className=" pl-2 p-1 rounded-2xl mt-2 w-[80%] "
           />
 
-          <NavLink to={`/?pasteId=${id}`} className="w-[20%]">
+          <NavLink to={`/?noteId=${id}`} className="w-[20%]">
             <button className=" bg-blue-700 text-white p-2 px-4 rounded-2xl mt-2 w-full ">
               Edit
             </button>
@@ -38,7 +57,7 @@ const ViewPaste = () => {
             <button
               className=" border p-1 px-2 rounded-md "
               onClick={() => {
-                navigator.clipboard.writeText(paste[0].content);
+                navigator.clipboard.writeText(note.content);
                 toast.success("Copied To Clipboard");
               }}
             >
@@ -47,7 +66,7 @@ const ViewPaste = () => {
           </div>
           <textarea
             className=" sm:min-w-[500px] p-4 rounded-b-2xl cursor-not-allowed w-full bg-white resize-none"
-            value={paste[0].content}
+            value={note?.content || ""}
             placeholder="Enter Content Here"
             rows={18}
             disabled
@@ -58,4 +77,4 @@ const ViewPaste = () => {
   );
 };
 
-export default ViewPaste;
+export default ViewUserPaste;

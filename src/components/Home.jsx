@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { addToPastes, updateToPastes } from "../redux/pasteSlice";
 import FeatherIcon from "feather-icons-react";
 import toast from "react-hot-toast";
+import { logout } from "../redux/authSlice";
 
 const Home = () => {
   const loggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -15,6 +16,30 @@ const Home = () => {
   const pasteId = searchParams.get("pasteId");
   const noteId = searchParams.get("noteId");
   const dispatch = useDispatch();
+
+   useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            `http://localhost:8000/api/v1/users/currentUser`,
+            {
+              method: "GET",
+              credentials: "include",
+            }
+          );
+  
+          if (response.status < 299) {
+            dispatch(logIn)
+          }else {
+            dispatch(logout())
+          }
+        } catch (error) {
+          
+        }
+      };
+  
+      fetchData();
+    }, []);
 
   // ✅ FIXED: useEffect should be always at top-level
   useEffect(() => {
@@ -142,6 +167,10 @@ const Home = () => {
             default:
               break;
           }
+
+          setTitle("")
+          setValue("")
+          setSearchParams({})
         }
       } catch (error) {
         console.log(("Note :", response));
