@@ -84,7 +84,7 @@ const UserNotes = () => {
               </h3>
             </div>
           ) : (
-            <div className=" h-[73vh] overflow-y-scroll flex flex-col gap-5 p-3">
+            <div className=" max-h-[73vh] overflow-y-scroll flex flex-col gap-5 p-3">
               {filteredData.length > 0 ? (
                 filteredData.map((paste) => {
                   return (

@@ -15,8 +15,9 @@ const SignUp = () => {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -25,47 +26,49 @@ const SignUp = () => {
   const onSubmit = async (data) => {
     // console.log("Signup Data:", data);
     try {
-      const response = await fetch(`https://paste-app-backend-production.up.railway.app/api/v1/users/register`,{
-        method:"POST",
-        headers:{
-          "Content-Type": "application/json"
-        },
-        body:JSON.stringify(data)
-      })
-
-      console.log(response);
+      setSubmitting(true);
+      const response = await fetch(
+        `https://paste-app-backend-production.up.railway.app/api/v1/users/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (response.status < 299) {
-        toast.success("User Registered Succsessfully")
+        toast.success("User Registered Succsessfully");
 
         setTimeout(() => {
-          toast.success("Login With Email Or Username" ,{duration: 4000})
+          toast.success("Login With Email Or Username", { duration: 4000 });
         }, 2000);
-        reset()
-        navigate("/login")
+        reset();
+        navigate("/login");
       }
 
       switch (response.status) {
         case 406:
-           toast.error("All Fields Required")
+          toast.error("All Fields Required");
           break;
 
         case 409:
-          toast.error("User with Email or Username Already Exist..!!")
+          toast.error("User with Email or Username Already Exist..!!");
           break;
-      
+
         default:
           break;
       }
-
-
-      
     } catch (error) {
       console.log("Register:", error);
-      
+    } finally {
+      setSubmitting(false);
     }
   };
 
+  console.log(submitting);
+  
   return (
     <div className="h-screen flex justify-center items-center">
       <div className="w-80 p-6 bg-white rounded-2xl shadow-lg">
@@ -131,8 +134,8 @@ const SignUp = () => {
             )}
           </div>
 
-          <Button type="submit" className="w-full">
-            Sign Up
+          <Button type="submit" className="w-full" disabled={submitting}>
+            {submitting ? "Signing Up..." : "Sign Up"}
           </Button>
         </form>
         <p className="text-sm text-center mt-4">

@@ -17,6 +17,7 @@ const LogIn = () => {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -26,6 +27,7 @@ const LogIn = () => {
 
   const onSubmit = async (data) => {
     try {
+      setSubmitting(true)
       const response = await fetch(`https://paste-app-backend-production.up.railway.app/api/v1/users/login`, {
         method: "POST",
         credentials: "include",
@@ -47,6 +49,9 @@ const LogIn = () => {
     } catch (error) {
       toast.error("Server is Down Please try Later")
       console.log("Log In:", error);
+    }
+    finally{
+      setSubmitting(false)
     }
   };
 
@@ -97,8 +102,8 @@ const LogIn = () => {
             )}
           </div>
 
-          <Button type="submit" className="w-full">
-            Login
+          <Button type="submit" className="w-full" disabled={submitting}>
+            {submitting ? "Logging In" : "Login"}
           </Button>
         </form>
         <p className="text-sm text-center mt-4">
