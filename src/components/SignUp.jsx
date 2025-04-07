@@ -43,8 +43,19 @@ const SignUp = () => {
         }, 2000);
         reset()
         navigate("/login")
-      } else if(response.status === 401) {
-        toast.error("User With Email id or Username already Exist")
+      }
+
+      switch (response.status) {
+        case 406:
+           toast.error("All Fields Required")
+          break;
+
+        case 409:
+          toast.error("User with Email or Username Already Exist..!!")
+          break;
+      
+        default:
+          break;
       }
 
 
