@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import FeatherIcon from "feather-icons-react";
 import toast from "react-hot-toast";
-import { logIn, setTime } from "../redux/authSlice";
+import { logIn} from "../redux/authSlice";
 
 const LogIn = () => {
   const {
@@ -40,7 +40,6 @@ const LogIn = () => {
       if (response.status < 299) {
         reset();
         dispatch(logIn());
-        dispatch(setTime())
         toast.success("Logged In");
         navigate("/");
       }else {

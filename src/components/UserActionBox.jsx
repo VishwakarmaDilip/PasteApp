@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { logout } from "../redux/authSlice";
 import toast from "react-hot-toast";
+import FeatherIcon from "feather-icons-react";
 
-const UserActionBox = () => {
-  const loggedIn = useSelector((state) => state.auth.isLoggedIn);
+const UserActionBox = ({ onClose, userName = "User" }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,32 +28,32 @@ const UserActionBox = () => {
   };
 
   return (
-    <div className=" absolute h-20 w-20 hidden group-hover:flex flex-col items-center justify-center bg-white border right-2 rounded-md overflow-hidden">
-      {loggedIn ? (
-        <>
-          <button
-            onClick={handleLogout}
-            className="hover:bg-blue-700 hover:text-white grid place-content-center w-full h-1/2"
-          >
-            Log Out
-          </button>
-        </>
-      ) : (
-        <>
-          <NavLink
-            to={"/login"}
-            className="hover:bg-blue-700 hover:text-white grid place-content-center w-full h-1/2"
-          >
-            Log In
-          </NavLink>
-          <NavLink
-            to={"/signUp"}
-            className="hover:bg-blue-700 hover:text-white grid place-content-center w-full h-1/2"
-          >
-            Sign Up
-          </NavLink>
-        </>
-      )}
+    <div className="top-0 right-0 absolute h-fit w-56 bg-white border border-black flex flex-col z-50 shadow-md rounded-md">
+      <div className="flex justify-between items-center mb-2 px-3 pt-2">
+        <h2 className="font-semibold text-base cursor-default">Hi, {userName}</h2>
+        <button onClick={onClose}>
+          <FeatherIcon icon="x" className="h-4 w-4 hover:bg-gray-200 rounded" />
+        </button>
+      </div>
+      <hr />
+      <ul className="flex flex-col p-2">
+        <NavLink className="flex items-center gap-2 rounded-md p-2 hover:bg-gray-200">
+          <FeatherIcon icon="user" className="h-5" />
+          <span>Your Profile</span>
+        </NavLink>
+        <NavLink className="flex items-center gap-2 rounded-md p-2 hover:bg-gray-200">
+          <FeatherIcon icon="key" className="h-5" />
+          <span>Change Password</span>
+        </NavLink>
+        <hr className="my-2" />
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-start w-full px-2 py-1 hover:bg-gray-200 rounded-md"
+        >
+          <FeatherIcon icon="log-out" className="h-5" />
+          <span>Log Out</span>
+        </button>
+      </ul>
     </div>
   );
 };
