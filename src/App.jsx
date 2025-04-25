@@ -7,6 +7,7 @@ import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
 import UserNotes from "./components/UserNotes";
 import ViewUserPaste from "./components/ViewUserPaste";
+import UserProfile from "./components/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,15 @@ const router = createBrowserRouter([
       <div>
         <Navbar />
         <Home />
+      </div>
+    ),
+  },
+  {
+    path: "/userProfile",
+    element: (
+      <div>
+        <Navbar />
+        <UserProfile />
       </div>
     ),
   },

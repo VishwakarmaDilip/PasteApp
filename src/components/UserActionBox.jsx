@@ -37,11 +37,11 @@ const UserActionBox = ({ onClose, userName = "User" }) => {
       </div>
       <hr />
       <ul className="flex flex-col p-2">
-        <NavLink className="flex items-center gap-2 rounded-md p-2 hover:bg-gray-200">
+        <NavLink to={"/userProfile"} onClick={onClose} className="flex items-center gap-2 rounded-md p-2 hover:bg-gray-200">
           <FeatherIcon icon="user" className="h-5" />
           <span>Your Profile</span>
         </NavLink>
-        <NavLink className="flex items-center gap-2 rounded-md p-2 hover:bg-gray-200">
+        <NavLink to={"/changePassword"} onClick={onClose} className="flex items-center gap-2 rounded-md p-2 hover:bg-gray-200">
           <FeatherIcon icon="key" className="h-5" />
           <span>Change Password</span>
         </NavLink>
