@@ -92,7 +92,7 @@ const Navbar = () => {
         ) : (
           <div className="relative" ref={menuRef}>
             <button onClick={toggleMenu}>
-              <FeatherIcon icon="user" className="w-5 h-5" />
+              <FeatherIcon icon="user" className="w-7 h-7" />
             </button>
             {(isMenuOpen || isAnimatingOut) && (
               <div
@@ -104,7 +104,6 @@ const Navbar = () => {
               >
                 <UserActionBox onClose={toggleMenu}
                   userName="Dilip Vishwakarma"
-                  // refrence={target}
                 />
               </div>
             )}
