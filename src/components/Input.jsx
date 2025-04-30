@@ -1,6 +1,6 @@
 import React from "react";
 
-const Input = React.forwardRef(({ type, className, ...props }, ref) => {  
+const Input = React.forwardRef(({ type, className, ...props }, ref) => {
   return (
     <input
       ref={ref} // Forwarding the ref properly

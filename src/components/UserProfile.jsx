@@ -3,6 +3,7 @@ import Input from "./Input";
 import { Controller, set, useForm } from "react-hook-form";
 import Button from "./Button";
 import toast from "react-hot-toast";
+import EditEmailAndImage from "./EditEmailAndImage";
 
 const UserProfile = () => {
   // State variables for user profile data
@@ -11,6 +12,7 @@ const UserProfile = () => {
   const [age, setAge] = React.useState("");
   const [mobile, setMobile] = React.useState("");
   const [editMode, setEditMode] = React.useState(false);
+  const [editMode2, setEdit2Mode] = React.useState(false);
   const [userData, setUserData] = React.useState(null);
   const [submitting, setSubmitting] = React.useState(false);
 
@@ -23,22 +25,22 @@ const UserProfile = () => {
           {
             method: "GET",
             credentials: "include",
-          });
-
-          const data = await response.json();
-          if (response.status < 299) {
-            setUserData(data.data);
-          } else {
-            console.error("Failed to fetch user data:", data.message);
           }
+        );
 
+        const data = await response.json();
+        if (response.status < 299) {
+          setUserData(data.data);
+        } else {
+          console.error("Failed to fetch user data:", data.message);
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [submitting]);
 
   const {
     control,
@@ -60,26 +62,28 @@ const UserProfile = () => {
 
   const onSubmit = async (data) => {
     // console.log("Form Data:", data);
-      try {
-        setSubmitting(true);
-        const response = await fetch(`https://paste-app-backend-production.up.railway.app/api/v1/users/updateAccount`,
-          {
-            method: "PATCH",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }           
-        )
-
-        if (response.status < 299) {
-          toast.success("Profile Updated Successfully");
-          setEditMode(false);
+    try {
+      setSubmitting(true);
+      const response = await fetch(
+        `https://paste-app-backend-production.up.railway.app/api/v1/users/updateAccount`,
+        {
+          method: "PATCH",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
         }
-        setSubmitting(false);
-      } catch (error) {
-        toast.error("Failed to update profile:", error.message);
+      );
+
+      if (response.status < 299) {
+        toast.success("Profile Updated Successfully");
+        setEditMode(false);
       }
+      setSubmitting(false);
+    } catch (error) {
+      toast.error("Failed to update profile:", error.message);
+    }
     setEditMode(false);
   };
 
@@ -93,13 +97,19 @@ const UserProfile = () => {
     });
   };
 
-
   return (
-    <div className="px-4 pt-2">
+    <div>
+      <div className={`${editMode2 ? "block": "hidden"} absolute top-0 opacity-60 w-screen h-screen bg-black z-20 `}></div>
+      <div className="px-4 pt-2">
+      <EditEmailAndImage editMode={editMode2} click={()=> setEdit2Mode(false)} />
       <h1 className=" font-bold text-blue-600">Profile</h1>
       <div className=" px-6 py-1 flex flex-col gap-4">
-        <h2 className="text-3xl font-bold">Welcome, Dilip Vishwakarma</h2>
-        <div className="relative flex items-center gap-3 w-fit">
+        <h2 className="text-3xl font-bold">Welcome, {userData?.fullName}</h2>
+        <div
+          className={`relative flex items-center px-1 py-4 gap-3 w-fit ${
+            editMode ? "outline outline-1 rounded-lg" : ""
+          }`}
+        >
           <div className="h-24 w-24 rounded-full bg-white outline outline-1 flex items-center justify-center overflow-hidden">
             <img
               src="../public/userIcon.png"
@@ -108,15 +118,16 @@ const UserProfile = () => {
             />
           </div>
           <Button
-            className={`absolute -bottom-1 text-xs left-[1.32rem] py-[0.3rem] px-[0.5rem] ${
+            onClick={() => setEdit2Mode(!editMode2)}
+            className={`w-16 absolute bottom-[0.2rem] text-xs right-[0.2rem] py-[0.3rem] px-[0.5rem] ${
               editMode ? "block" : "hidden"
             } `}
           >
-            Change
+            Edit
           </Button>
           <div>
-            <h3 className="font-semibold text-2xl">dilipkumar_fn</h3>
-            <p className="text-sm text-gray-600">2106dilip@gmail.com</p>
+            <h3 className="font-semibold text-2xl">{userData?.username}</h3>
+            <p className="text-sm text-gray-600">{userData?.email}</p>
           </div>
         </div>
         <form
@@ -245,6 +256,7 @@ const UserProfile = () => {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 };
