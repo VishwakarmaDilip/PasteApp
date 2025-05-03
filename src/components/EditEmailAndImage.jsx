@@ -2,15 +2,54 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import Input from "./Input";
 import Button from "./Button";
+import toast from "react-hot-toast";
 
-const EditEmailAndImage = ({ editMode, click }) => {
+const EditEmailAndImage = ({ editMode, click, email, setEditMode, setEdit2Mode, avatarUrl}) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      email: email || "",
+      avatar: null,
+    },
+  });
 
   const [avatar, setAvatar] = React.useState(null);
+  const[submitting, setSubmitting] = React.useState(false);
+
+  const submit = async (data) => {
+    const formData = new FormData();
+    formData.append("email", data.email);
+    formData.append("avatar", avatar)
+    
+
+    try {
+      setSubmitting(true);
+      const response = await fetch("https://paste-app-backend-production.up.railway.app/api/v1/users/updateAvatarAndEmail",
+        {
+          method: "PATCH",
+          credentials: "include",
+          body: formData,
+        }
+      )
+      setSubmitting(false);
+
+      setEditMode(false)
+      setEdit2Mode(false)
+
+      if (response.status < 299) {
+        toast.success("User Updated Successfully")
+      }
+    } catch (error) {
+      console.log("Error:", error);
+      setSubmitting(false);
+    }
+    finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <div
@@ -22,9 +61,7 @@ const EditEmailAndImage = ({ editMode, click }) => {
         Edit Email and Image
       </h1>
       <form
-        action="https://paste-app-backend-production.up.railway.app/api/v1/users/updateAvatarAndEmail"
-        method="patch"
-        encType="multipart/form-data"
+        onSubmit={handleSubmit(submit)}
         className="flex flex-col items-center gap-8"
       >
         <div className="flex flex-col gap-2 w-3/4">
@@ -33,27 +70,25 @@ const EditEmailAndImage = ({ editMode, click }) => {
             name="email"
             control={control}
             rules={{ required: "Email is required" }}
-            defaultValue="2106dilip@gmail.com"
             render={({ field }) => (
               <Input
                 type="text"
                 className={`h-12 w-full ml-2`}
                 {...field}
                 onChange={(e) => {
-                  //   setFullName(e.target.value);
                   field.onChange(e);
                 }}
               />
             )}
           />
-          {errors.fullName && (
-            <p className="text-red-500 text-sm">{errors.fullName.message}</p>
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
           )}
         </div>
         <div className="flex flex-col gap-3 items-center">
           <div className=" w-60 h-60 outline outline-1 rounded-full flex justify-center overflow-hidden">
             <img
-              src={avatar ? URL.createObjectURL(avatar) : `../userIcon.png`}
+              src={avatar ? URL.createObjectURL(avatar) : avatarUrl}
               className=" object-contain"
             />
           </div>
@@ -89,7 +124,9 @@ const EditEmailAndImage = ({ editMode, click }) => {
           >
             Cancel
           </button>
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={submitting}>
+            {submitting ? "Submitting..." : "Submit"}
+          </Button>
         </div>
       </form>
     </div>

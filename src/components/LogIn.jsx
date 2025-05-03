@@ -6,7 +6,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import FeatherIcon from "feather-icons-react";
 import toast from "react-hot-toast";
-import { logIn} from "../redux/authSlice";
+import { logIn } from "../redux/authSlice";
 
 const LogIn = () => {
   const {
@@ -27,30 +27,32 @@ const LogIn = () => {
 
   const onSubmit = async (data) => {
     try {
-      setSubmitting(true)
-      const response = await fetch(`https://paste-app-backend-production.up.railway.app/api/v1/users/login`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
+      setSubmitting(true);
+      const response = await fetch(
+        `https://paste-app-backend-production.up.railway.app/api/v1/users/login`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
 
       if (response.status < 299) {
         reset();
         dispatch(logIn());
         toast.success("Logged In");
         navigate("/");
-      }else {
-        toast.error("Invalid User Credentials")
+      } else {
+        toast.error("Invalid User Credentials");
       }
     } catch (error) {
-      toast.error("Server is Down Please try Later")
+      toast.error("Server is Down Please try Later");
       console.log("Log In:", error);
-    }
-    finally{
-      setSubmitting(false)
+    } finally {
+      setSubmitting(false);
     }
   };
 
