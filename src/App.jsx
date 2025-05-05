@@ -9,6 +9,7 @@ import UserNotes from "./components/UserNotes";
 import ViewUserPaste from "./components/ViewUserPaste";
 import UserProfile from "./components/UserProfile";
 import ChangePassword from "./components/ChangePassword";
+import PrivateRoute from "./components/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -23,19 +24,19 @@ const router = createBrowserRouter([
   {
     path: "/userProfile",
     element: (
-      <div>
+      <PrivateRoute>
         <Navbar />
         <UserProfile />
-      </div>
+      </PrivateRoute>
     ),
   },
   {
     path: "/changePassword",
     element: (
-      <div>
+      <PrivateRoute>
         <Navbar />
         <ChangePassword />
-      </div>
+      </PrivateRoute>
     ),
   },
   {
@@ -75,19 +76,19 @@ const router = createBrowserRouter([
   {
     path: "/userNotes",
     element:(
-      <div>
+      <PrivateRoute>
       <Navbar />
       <UserNotes />
-    </div>
+    </PrivateRoute>
     )
   },
   {
     path: "/userNotes/:id",
     element: (
-      <div>
+      <PrivateRoute>
         <Navbar />
         < ViewUserPaste/>
-      </div>
+      </PrivateRoute>
     ),
   },
 ]);

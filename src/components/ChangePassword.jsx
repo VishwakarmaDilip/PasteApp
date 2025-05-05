@@ -5,12 +5,15 @@ import FeatherIcon from "feather-icons-react";
 import Button from "./Button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/authSlice";
 
 const ChangePassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -37,6 +40,7 @@ const ChangePassword = () => {
         reset();
         toast.success("Password Changed Successfully");
         navigate("/login");
+        dispatch(logout())
       } else {
         toast.error("Invalid User Credentials");
       }
