@@ -8,6 +8,7 @@ import SignUp from "./components/SignUp";
 import UserNotes from "./components/UserNotes";
 import ViewUserPaste from "./components/ViewUserPaste";
 import UserProfile from "./components/UserProfile";
+import ChangePassword from "./components/ChangePassword";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,15 @@ const router = createBrowserRouter([
       <div>
         <Navbar />
         <UserProfile />
+      </div>
+    ),
+  },
+  {
+    path: "/changePassword",
+    element: (
+      <div>
+        <Navbar />
+        <ChangePassword />
       </div>
     ),
   },
