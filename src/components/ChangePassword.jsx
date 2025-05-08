@@ -69,7 +69,7 @@ const ChangePassword = () => {
           className="w-1/2 flex flex-col gap-10"
         >
           <div className="flex flex-col gap-4">
-            <div className="relative">
+            <div className="relative -z-10">
               <label className="block text-sm font-medium">
                 Current Password
               </label>

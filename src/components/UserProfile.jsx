@@ -123,10 +123,10 @@ const UserProfile = () => {
 
         <h1 className="font-bold text-blue-600">Profile</h1>
         <div className="px-6 py-1 flex flex-col gap-4">
-          <h2 className="text-3xl font-bold">Welcome, {userData?.fullName}</h2>
+          <h2 className="text-xl md:text-3xl font-bold">Welcome, {userData?.fullName}</h2>
 
           <div
-            className={`relative flex items-center px-1 py-4 gap-3 w-fit ${
+            className={`relative -z-50 flex items-center px-1 py-4 gap-3  w-fit ${
               editMode ? "outline outline-1 rounded-lg" : ""
             }`}
           >

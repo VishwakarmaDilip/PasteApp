@@ -24,7 +24,6 @@ const SignUp = () => {
   };
 
   const onSubmit = async (data) => {
-    // console.log("Signup Data:", data);
     try {
       setSubmitting(true);
       const response = await fetch(
@@ -66,8 +65,6 @@ const SignUp = () => {
       setSubmitting(false);
     }
   };
-
-  console.log(submitting);
   
   return (
     <div className="h-screen flex justify-center items-center">

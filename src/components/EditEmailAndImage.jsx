@@ -55,9 +55,9 @@ const EditEmailAndImage = ({ editMode, click, email, setEditMode, setEdit2Mode, 
     <div
       className={`${
         editMode ? "block" : "hidden"
-      } absolute top-16 left-[9.5rem] w-4/5 h-fit bg-white border boreder-black z-30 rounded-lg p-2 `}
+      } absolute top-16 left-[2.5rem] md:left-[9.5rem] w-4/5 h-fit bg-white border boreder-black z-30 rounded-lg p-2 `}
     >
-      <h1 className="text-lg font-bold text-blue-500 mb-5">
+      <h1 className="md:text-lg font-bold text-blue-500 mb-5">
         Edit Email and Image
       </h1>
       <form

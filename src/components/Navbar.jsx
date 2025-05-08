@@ -9,6 +9,31 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAnimatingOut, setIsAnimatingOut] = useState(false);
   const menuRef = useRef();
+  const [userData, setUserData] = React.useState(null);
+
+  useEffect(() => {
+    try {
+      const fetchData = async () => {
+        const response = await fetch(
+          `https://paste-app-backend-production.up.railway.app/api/v1/users/currentUser`,
+          {
+            method: "GET",
+            credentials: "include",
+          }
+        );
+        const data = await response.json();
+        if (response.status < 299) {
+          setUserData(data.data);
+        } else {
+          console.error("Failed to fetch user data:", data.message);
+        }
+      };
+
+      fetchData();
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  },[]);
 
   const toggleMenu = () => {
     if (isMenuOpen) {
@@ -103,7 +128,7 @@ const Navbar = () => {
                 }`}
               >
                 <UserActionBox onClose={toggleMenu}
-                  userName="Dilip Vishwakarma"
+                userName={userData?.fullName}
                 />
               </div>
             )}
